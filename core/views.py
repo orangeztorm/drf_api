@@ -13,13 +13,15 @@ from rest_framework import generics
 
 # Create your views here.
 
-class PostView(mixins.ListModelMixin, generics.GenericAPIView):
+class PostView(mixins.ListModelMixin, mixins.CreateModelMixin,generics.GenericAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
     def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-        return Response(serializer.data)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 # class TestView(APIView):
 #     permission_classes = (IsAuthenticated,)
